@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>string.multitool</string>
+	<key>category</key>
+	<string>Tools</string>
+	<key>connections</key>
+	<dict>
+		<key>359ED8A6-D6B4-4DFE-91D5-86369F1575AB</key>
+		<array/>
+		<key>52225363-168D-443A-8902-BAB71D372C80</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>BDCAAEF8-B139-428A-BB4F-D6CC0CA11AB0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>BDCAAEF8-B139-428A-BB4F-D6CC0CA11AB0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>359ED8A6-D6B4-4DFE-91D5-86369F1575AB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B04738DE-8976-486F-99CD-0D35D23DAA21</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>Paste to frontmost app</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Yuri Mazursky</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>String multitool</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>1</integer>
+				<key>hotmod</key>
+				<integer>1835008</integer>
+				<key>hotstring</key>
+				<string>S</string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>0</integer>
+				<key>relatedAppsMode</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>52225363-168D-443A-8902-BAB71D372C80</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<false/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>359ED8A6-D6B4-4DFE-91D5-86369F1575AB</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>string</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>function run(argv) {
+  const input = argv[0];
+
+  const WORD = /[a-zA-Z0-9]+/g;
+  const COMMAND_SEPARATOR = '/';
+
+  let items = [];
+
+  const toPascalCase = (string = '') =&gt; {
+    const words = string.match(WORD);
+    return (words || [])
+      .map((word) =&gt; `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+      .join('');
+  };
+
+  const toLowerCase = (string = '') =&gt; {
+    return string.toLowerCase();
+  };
+
+  const toUpperCase = (string = '') =&gt; {
+    return string.toUpperCase();
+  };
+
+  const toCamelCase = (string = '') =&gt; {
+    const words = string.match(WORD);
+    return (words || []).map((word, index) =&gt; {
+      if (index === 0) {
+        return `${word.charAt(0).toLowerCase()}${word.slice(1)}`;
+      }
+      return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+    }).join('');
+  };
+
+  const toKebapCase = (string = '') =&gt; {
+    const words = string.match(WORD);
+    return (words || []).join('-');
+  };
+
+  const toSnakeCase = (string = '') =&gt; {
+    const words = string.match(WORD);
+    return (words || []).join('_');
+  };
+
+  const toTrimmed = (string = '') =&gt; {
+    return string.trim();
+  };
+
+  const toPrettyJSON = (string = '') =&gt; {
+    try {
+      return JSON.stringify(JSON.parse(string), null, 2);
+    } catch {
+      throw new Error('Invalid JSON');
+    }
+  };
+
+  const commands = {
+    l: {
+      name: 'Lowercase',
+      transform: toLowerCase,
+    },
+    u: {
+      name: 'Uppercase',
+      transform: toUpperCase,
+    },
+    c: {
+      name: 'Camelcase',
+      transform: toCamelCase,
+    },
+    p: {
+      name: 'Pascalcase',
+      transform: toPascalCase,
+    },
+    k: {
+      name: 'Kebapcase',
+      transform: toKebapCase,
+    },
+    s: {
+      name: 'Snakecase',
+      transform: toSnakeCase,
+    },
+    t: {
+      name: 'Trim',
+      transform: toTrimmed,
+    },
+    j: {
+      name: 'Prettify JSON',
+      transform: toPrettyJSON,
+    },
+  };
+
+  const runTransforms = (input, commandsSequence) =&gt; {
+    if (Array.isArray(commandsSequence) &amp;&amp; commandsSequence.length &gt; 0) {
+      try {
+        const transformed = commandsSequence.reduce((result, command) =&gt; {
+          const transformer = commands[command];
+          if (transformer) {
+            return transformer.transform(result);
+          }
+          return result
+        }, input);
+        return transformed;
+      } catch {
+        
+      }
+    }
+
+    return [input, []];
+  };
+
+  const getCommandSequencePath = (commandsSequence) =&gt; {
+    if (Array.isArray(commandsSequence) &amp;&amp; commandsSequence.length &gt; 0) {
+      return commandsSequence.reduce((result, command) =&gt; {
+        const transformer = commands[command];
+        if (transformer) {
+          result.push(transformer.name);
+        }
+        return result
+      }, []);
+    }
+  };
+
+  const isMultilined = (string = '') =&gt; /\n+/.test(string);
+
+  const inputSplitted = (input || '').split(COMMAND_SEPARATOR);
+
+  const string = inputSplitted.length &gt; 2
+    ? inputSplitted.slice(0, inputSplitted.length - 1).join(COMMAND_SEPARATOR)
+    : inputSplitted[0];
+  const commandsSequence = inputSplitted[1] ? inputSplitted[1].split('') : undefined;
+
+  if (commandsSequence) {
+    const path = getCommandSequencePath(commandsSequence);
+    const subtitle = path.join('→');
+    const icon = {
+      path: './Chained.png',
+    };
+    try {
+      const chainResult = runTransforms(string, commandsSequence);
+      items = [{
+        uid: 'chained',
+        title: isMultilined(chainResult) ? 'Multiline output' : chainResult,
+        subtitle,
+        arg: chainResult,
+        icon,
+      }];
+    } catch {
+      items = [{
+        uid: 'error',
+        title: 'Error',
+        subtitle,
+        arg: string,
+        icon,
+      }];
+    }
+  } else {
+    items = Object.values(commands).map((command) =&gt; {
+      try {
+        const transformed = command.transform(string);
+
+        return {
+          uid: command.name.toLowerCase(),
+          title: isMultilined(transformed) ? 'Multiline output' : transformed,
+          subtitle: command.name,
+          arg: transformed,
+          icon: {
+            path: `./${command.name}.png`,
+          },
+        };
+      } catch {
+        return {};
+      }
+    });
+  }
+
+  return JSON.stringify({
+    items,
+  });
+}
+</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>./transform.js</string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>String multitool</string>
+				<key>type</key>
+				<integer>8</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>BDCAAEF8-B139-428A-BB4F-D6CC0CA11AB0</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>autopaste</key>
+				<true/>
+				<key>clipboardtext</key>
+				<string>{query}</string>
+				<key>ignoredynamicplaceholders</key>
+				<false/>
+				<key>transient</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.clipboard</string>
+			<key>uid</key>
+			<string>B04738DE-8976-486F-99CD-0D35D23DAA21</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>359ED8A6-D6B4-4DFE-91D5-86369F1575AB</key>
+		<dict>
+			<key>xpos</key>
+			<real>525</real>
+			<key>ypos</key>
+			<real>185</real>
+		</dict>
+		<key>52225363-168D-443A-8902-BAB71D372C80</key>
+		<dict>
+			<key>xpos</key>
+			<real>65</real>
+			<key>ypos</key>
+			<real>185</real>
+		</dict>
+		<key>B04738DE-8976-486F-99CD-0D35D23DAA21</key>
+		<dict>
+			<key>xpos</key>
+			<real>525</real>
+			<key>ypos</key>
+			<real>335</real>
+		</dict>
+		<key>BDCAAEF8-B139-428A-BB4F-D6CC0CA11AB0</key>
+		<dict>
+			<key>xpos</key>
+			<real>230</real>
+			<key>ypos</key>
+			<real>185</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
