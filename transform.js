@@ -92,21 +92,16 @@ function run(argv) {
 
   const runTransforms = (input, commandsSequence) => {
     if (Array.isArray(commandsSequence) && commandsSequence.length > 0) {
-      try {
-        const transformed = commandsSequence.reduce((result, command) => {
-          const transformer = commands[command];
-          if (transformer) {
-            return transformer.transform(result);
-          }
-          return result
-        }, input);
-        return transformed;
-      } catch {
-        
-      }
+      return commandsSequence.reduce((result, command) => {
+        const transformer = commands[command];
+        if (transformer) {
+          return transformer.transform(result);
+        }
+        return result
+      }, input);
     }
 
-    return [input, []];
+    return input;
   };
 
   const getCommandSequencePath = (commandsSequence) => {
