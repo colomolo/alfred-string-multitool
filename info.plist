@@ -50,7 +50,7 @@
 	<key>createdby</key>
 	<string>Yuri Mazursky</string>
 	<key>description</key>
-	<string></string>
+	<string>Handy string transforming tools for developers</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -355,7 +355,10 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string># String Multitool
+Alfred workflow with handy string transforming tools.
+
+[Description](https://github.com/colomolo/alfred-string-multitool/blob/main/README.md)</string>
 	<key>uidata</key>
 	<dict>
 		<key>359ED8A6-D6B4-4DFE-91D5-86369F1575AB</key>
@@ -392,6 +395,6 @@
 	<key>version</key>
 	<string>1.0.2</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>http://colomolome.com</string>
 </dict>
 </plist>
