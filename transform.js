@@ -48,6 +48,10 @@ function run(argv) {
     return (words || []).join(replacement);
   };
 
+  const toReplaced = (string = '', substring, replacement) => {
+    return string.replaceAll(substring, replacement);
+  };
+
   const noArgCommands = {
     l: {
       name: 'Lowercase',
@@ -82,6 +86,13 @@ function run(argv) {
       transform: toSlug,
       args: 1,
     },
+    R: {
+      name: 'Replace',
+      hint: `Takes two arguments: ${COMMAND_SEPARATOR}R '<substring>' '<replacement>'`,
+      transform: toReplaced,
+      args: 2,
+      isHidden: true,
+    },
   };
 
   const allCommands = {
@@ -90,8 +101,8 @@ function run(argv) {
   };
 
   const argCommandsRx = Object.entries(argCommands).map(([key, description]) => {
-    const argRx = '(?:\'[^\'\"]*\'|\"[^\'\"]*\")';
-    return `${key} ${argRx.repeat(description.args)}`;
+    const argRx = ' (?:\'[^\'\"]*\'|\"[^\'\"]*\")';
+    return `${key}${argRx.repeat(description.args)}`;
   })
   const AVAILABLE_COMMANDS = new RegExp(`[${Object.keys(noArgCommands).join('')}]{1}|${argCommandsRx.join('|')}`, 'g');
 
@@ -167,6 +178,10 @@ function run(argv) {
     }
   } else {
     items = Object.values(allCommands).map((command) => {
+      if (command.isHidden) {
+        return {};
+      }
+
       try {
         const transformed = command.transform(string);
 
