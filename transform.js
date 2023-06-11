@@ -78,7 +78,7 @@ function run(argv) {
   const argCommands = {
     S: {
       name: 'Slugify',
-      hint: `Chain syntax: ${COMMAND_SEPARATOR}S '<replacement>'`,
+      hint: `Takes one argument: ${COMMAND_SEPARATOR}S '<replacement>'`,
       transform: toSlug,
       args: 1,
     },
