@@ -47,14 +47,6 @@ function run(argv) {
     return string.trim();
   };
 
-  const toPrettyJSON = (string = '') => {
-    try {
-      return JSON.stringify(JSON.parse(string), null, 2);
-    } catch {
-      throw new Error('Invalid JSON');
-    }
-  };
-
   const commands = {
     l: {
       name: 'Lowercase',
@@ -83,10 +75,6 @@ function run(argv) {
     t: {
       name: 'Trim',
       transform: toTrimmed,
-    },
-    j: {
-      name: 'Prettify JSON',
-      transform: toPrettyJSON,
     },
   };
 
