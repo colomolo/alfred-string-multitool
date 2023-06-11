@@ -21,10 +21,38 @@ Some string THat we need to use as variable Name! /lc
 someStringThatWeNeedToUseAsVariableName
 ```
 
-### Available transformation commands
-**p**ascalcase  
-**l**owercase  
-**u**ppercase  
-**c**amelcase  
-**k**ebapcase  
-**s**nakecase  
+## Commands
+### Pascalcase `/p`
+Capitalize each word and merge.
+
+`The quick brown fox jumps over the lazy dog /p` → `TheQuickBrownFoxJumpsOverTheLazyDog`
+
+### Lowercase `/l`
+Lowercase all chars.
+
+`SAY HELLO TO MY LITTLE FRIEND! /l` → `say hello to my little friend!`
+
+### Uppercase `/u`
+Uppercase all chars.
+
+`Can you hear me Major Tom? /u` → `CAN YOU HEAR ME MAJOR TOM?`
+
+### Camelcase `/c`
+Convert string to camelcase and remove all non-word and non-digit chars.
+
+`is error state! /c` → `isErrorState`
+
+### Snakecase `/s`
+Convert string to snakecase and remove all non-word and non-digit chars.
+
+`is error state! /s` → `is_error_state`
+
+### Trim `/t`
+Remove space-like characters from start and end of the string.
+
+`   Well, something is happening...  /t` → `Well, something is happening...`
+
+### Slugify `/S 'replacer'`
+Remove all non-word and non-digit chars and merge words with specified *replacer* string.
+
+`http://foo.bar/baz/brrr /S '+'` → `http+foo+bar+baz+brrr`
