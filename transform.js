@@ -4,7 +4,8 @@ function run(argv) {
   const input = argv[0];
 
   const WORD = /[a-zA-Z0-9]+/g;
-  const COMMAND_SEPARATOR = '/';
+  const ARGUMENT = /(?:'|")([^'"]*)(?:'|")/g;
+  const COMMAND_SEPARATOR = ' /';
 
   let items = [];
 
@@ -33,11 +34,6 @@ function run(argv) {
     }).join('');
   };
 
-  const toKebapCase = (string = '') => {
-    const words = string.match(WORD);
-    return (words || []).join('-');
-  };
-
   const toSnakeCase = (string = '') => {
     const words = string.match(WORD);
     return (words || []).join('_');
@@ -47,7 +43,12 @@ function run(argv) {
     return string.trim();
   };
 
-  const commands = {
+  const toSlug = (string = '', replacement = '-') => {
+    const words = string.match(WORD);
+    return (words || []).join(replacement);
+  };
+
+  const noArgCommands = {
     l: {
       name: 'Lowercase',
       transform: toLowerCase,
@@ -64,10 +65,6 @@ function run(argv) {
       name: 'Pascalcase',
       transform: toPascalCase,
     },
-    k: {
-      name: 'Kebapcase',
-      transform: toKebapCase,
-    },
     s: {
       name: 'Snakecase',
       transform: toSnakeCase,
@@ -76,13 +73,37 @@ function run(argv) {
       name: 'Trim',
       transform: toTrimmed,
     },
+  }
+
+  const argCommands = {
+    S: {
+      name: 'Slugify',
+      hint: `Chain syntax: ${COMMAND_SEPARATOR}S '<replacement>'`,
+      transform: toSlug,
+      args: 1,
+    },
   };
+
+  const allCommands = {
+    ...noArgCommands,
+    ...argCommands,
+  };
+
+  const argCommandsRx = Object.entries(argCommands).map(([key, description]) => {
+    const argRx = '(?:\'|\")[^\'\"]*(?:\'|\")';
+    return `${key} ${argRx.repeat(description.args)}`;
+  })
+  const COMMANDS_SEQUENCE = new RegExp(`[${Object.keys(noArgCommands).join('')}]{1}|${argCommandsRx.join('|')}`, 'g');
 
   const runTransforms = (input, commandsSequence) => {
     if (Array.isArray(commandsSequence) && commandsSequence.length > 0) {
       return commandsSequence.reduce((result, command) => {
-        const transformer = commands[command];
+        const transformer = allCommands[command[0]];
         if (transformer) {
+          if (transformer.args && command.length > 1) {
+            const commandArgs = [...command.matchAll(ARGUMENT)].map((argMatch) => argMatch[1]);
+            return transformer.transform.apply(null, [result, ...commandArgs]);
+          }
           return transformer.transform(result);
         }
         return result
@@ -95,7 +116,7 @@ function run(argv) {
   const getCommandSequencePath = (commandsSequence) => {
     if (Array.isArray(commandsSequence) && commandsSequence.length > 0) {
       return commandsSequence.reduce((result, command) => {
-        const transformer = commands[command];
+        const transformer = allCommands[command[0]];
         if (transformer) {
           result.push(transformer.name);
         }
@@ -105,13 +126,12 @@ function run(argv) {
   };
 
   const isMultilined = (string = '') => /\n+/.test(string);
-
   const inputSplitted = (input || '').split(COMMAND_SEPARATOR);
 
   const string = inputSplitted.length > 2
     ? inputSplitted.slice(0, inputSplitted.length - 1).join(COMMAND_SEPARATOR)
     : inputSplitted[0];
-  const commandsSequence = inputSplitted[1] ? inputSplitted[1].split('') : undefined;
+  const commandsSequence = inputSplitted[1] ? inputSplitted[1].match(COMMANDS_SEQUENCE) : undefined;
 
   if (commandsSequence) {
     const path = getCommandSequencePath(commandsSequence);
@@ -138,14 +158,14 @@ function run(argv) {
       }];
     }
   } else {
-    items = Object.values(commands).map((command) => {
+    items = Object.values(allCommands).map((command) => {
       try {
         const transformed = command.transform(string);
 
         return {
           uid: command.name.toLowerCase(),
           title: isMultilined(transformed) ? 'Multiline output' : transformed,
-          subtitle: command.name,
+          subtitle: command.hint ? `${command.name}. ${command.hint}` : command.name,
           arg: transformed,
           icon: {
             path: `./${command.name}.png`,
