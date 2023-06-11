@@ -5,7 +5,7 @@
 [Alfred](https://www.alfredapp.com/) workflow with handy string transforming tools.
 
 ## Usage
-Use keyword `string` to init String Multitool. Provide string as an argument and select needed transformation from list.
+Use keyword `string` (or custom keyword) to init String Multitool. Provide string as an argument and select needed transformation from list.
 
 ## Chaining transformations
 You can also chain transformations by providing transformation commands after `/` char.
