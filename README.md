@@ -22,11 +22,6 @@ someStringThatWeNeedToUseAsVariableName
 ```
 
 ## Commands
-### Pascalcase `/p`
-Capitalize each word and merge.
-
-`The quick brown fox jumps over the lazy dog /p` → `TheQuickBrownFoxJumpsOverTheLazyDog`
-
 ### Lowercase `/l`
 Lowercase all chars.
 
@@ -36,6 +31,11 @@ Lowercase all chars.
 Uppercase all chars.
 
 `Can you hear me Major Tom? /u` → `CAN YOU HEAR ME MAJOR TOM?`
+
+### Pascalcase `/p`
+Convert string to pascalcase and remove all non-word and non-digit chars.
+
+`The quick brown fox jumps over the lazy dog /p` → `TheQuickBrownFoxJumpsOverTheLazyDog`
 
 ### Camelcase `/c`
 Convert string to camelcase and remove all non-word and non-digit chars.
@@ -52,7 +52,12 @@ Remove space-like characters from start and end of the string.
 
 `   Well, something is happening...  /t` → `Well, something is happening...`
 
-### Slugify `/S 'replacer'`
-Remove all non-word and non-digit chars and merge words with specified *replacer* string.
+### Slugify `/S '<replacement>'`
+Remove all non-word and non-digit chars and merge words with specified *replacement* string.
 
 `http://foo.bar/baz/brrr /S '+'` → `http+foo+bar+baz+brrr`
+
+### Replace `/R '<substring>' '<replacement>'`
+Replace all *substring* occurences with *replacement* string.
+
+`I'm Will, Will's son /R 'Will' 'Bill'` → `I'm Bill, Bill's son`
