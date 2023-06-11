@@ -4,7 +4,7 @@ function run(argv) {
   const input = argv[0];
 
   const WORD = /[a-zA-Z0-9]+/g;
-  const ARGUMENT = /(?:'|")([^'"]*)(?:'|")/g;
+  const ARGUMENT = /(?:'([^'"]*)'|"([^'"]*)")/g;
   const COMMAND_SEPARATOR = ' /';
 
   let items = [];
@@ -90,23 +90,27 @@ function run(argv) {
   };
 
   const argCommandsRx = Object.entries(argCommands).map(([key, description]) => {
-    const argRx = '(?:\'|\")[^\'\"]*(?:\'|\")';
+    const argRx = '(?:\'[^\'\"]*\'|\"[^\'\"]*\")';
     return `${key} ${argRx.repeat(description.args)}`;
   })
-  const COMMANDS_SEQUENCE = new RegExp(`[${Object.keys(noArgCommands).join('')}]{1}|${argCommandsRx.join('|')}`, 'g');
+  const AVAILABLE_COMMANDS = new RegExp(`[${Object.keys(noArgCommands).join('')}]{1}|${argCommandsRx.join('|')}`, 'g');
 
   const runTransforms = (input, commandsSequence) => {
     if (Array.isArray(commandsSequence) && commandsSequence.length > 0) {
       return commandsSequence.reduce((result, command) => {
         const transformer = allCommands[command[0]];
-        if (transformer) {
-          if (transformer.args && command.length > 1) {
-            const commandArgs = [...command.matchAll(ARGUMENT)].map((argMatch) => argMatch[1]);
-            return transformer.transform.apply(null, [result, ...commandArgs]);
-          }
-          return transformer.transform(result);
+
+        if (!transformer) {
+          return result;
         }
-        return result
+
+        if (transformer.args && command.length > 1) {
+          const commandArgs = [...command.matchAll(ARGUMENT)]
+            .map((argMatch) => argMatch[1] ?? argMatch[2]); // matching single or double quotes
+          return transformer.transform.apply(null, [result, ...commandArgs]);
+        }
+
+        return transformer.transform(result);
       }, input);
     }
 
@@ -128,10 +132,14 @@ function run(argv) {
   const isMultilined = (string = '') => /\n+/.test(string);
   const inputSplitted = (input || '').split(COMMAND_SEPARATOR);
 
-  const string = inputSplitted.length > 2
-    ? inputSplitted.slice(0, inputSplitted.length - 1).join(COMMAND_SEPARATOR)
-    : inputSplitted[0];
-  const commandsSequence = inputSplitted[1] ? inputSplitted[1].match(COMMANDS_SEQUENCE) : undefined;
+  const string =
+    inputSplitted.length > 2
+      ? inputSplitted.slice(0, inputSplitted.length - 1).join(COMMAND_SEPARATOR)
+      : inputSplitted[0];
+  const commandsSequence =
+    inputSplitted.length > 1
+      ? inputSplitted[inputSplitted.length - 1].match(AVAILABLE_COMMANDS)
+      : null;
 
   if (commandsSequence) {
     const path = getCommandSequencePath(commandsSequence);
