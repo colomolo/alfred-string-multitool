@@ -52,12 +52,12 @@ Remove space-like characters from start and end of the string.
 
 `   Well, something is happening...  /t` → `Well, something is happening...`
 
-### Slugify `/S '<replacement>'`
+### Slugify `/S '<replacement (optional)>'`
 Remove all non-word and non-digit chars and merge words with specified *replacement* string.
 
 `http://foo.bar/baz/brrr /S '+'` → `http+foo+bar+baz+brrr`
 
-### Replace `/R '<substring>' '<replacement>'`
+### Replace `/R '<substring>' '<replacement (optional)>'`
 Replace all *substring* occurences with *replacement* string.
 
 `I'm Will, Will's son /R 'Will' 'Bill'` → `I'm Bill, Bill's son`
