@@ -48,9 +48,14 @@ Convert string to snakecase and remove all non-word and non-digit chars.
 `is error state! /s` → `is_error_state`
 
 ### Trim `/t`
-Remove space-like characters from start and end of the string.
+Remove space-like chars from start and end of the string.
 
 `   Well, something is happening...  /t` → `Well, something is happening...`
+
+### Capitalize `/a`
+Capitalize first char of each word.
+
+`The quick brown fox jumps over the lazy dog /a` → `The Quick Brown Fox Jumps Over The Lazy Dog`
 
 ### Slugify `/S '<replacement>'`
 Remove all non-word and non-digit chars and merge words with specified *replacement* string. If no *replacement* argument is provided, Slugify uses `-` char as an argument.
