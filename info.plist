@@ -71,7 +71,7 @@
 				<key>hotkey</key>
 				<integer>1</integer>
 				<key>hotmod</key>
-				<integer>1835008</integer>
+				<integer>1703936</integer>
 				<key>hotstring</key>
 				<string>S</string>
 				<key>leftcursor</key>
@@ -123,7 +123,7 @@
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>keyword</key>
-				<string>string</string>
+				<string>{var:keyword}</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -391,7 +391,29 @@ Alfred workflow with handy string transforming tools.
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
-	<array/>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>string</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>keyword</string>
+		</dict>
+	</array>
 	<key>version</key>
 	<string>1.0.7</string>
 	<key>webaddress</key>
