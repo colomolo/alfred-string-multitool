@@ -43,6 +43,20 @@ function run(argv) {
     return string.trim();
   };
 
+  const toCapitalized = (string = '') => {
+    const wordChar = /[a-zA-Z_]/;
+    let previousChar = '';
+    let capitalized = '';
+
+    for (let i = 0; i < string.length; i++) {
+      const currentChar = string.charAt(i);
+      capitalized += !wordChar.test(previousChar) && wordChar.test(currentChar) ? currentChar.toLocaleUpperCase() : currentChar;
+      previousChar = currentChar;
+    }
+
+    return capitalized;
+  };
+
   const toSlug = (string = '', replacement = '-') => {
     const words = string.match(WORD);
     return (words || []).join(replacement);
@@ -76,6 +90,10 @@ function run(argv) {
     t: {
       name: 'Trim',
       transform: toTrimmed,
+    },
+    a: {
+      name: 'Capitalize',
+      transform: toCapitalized,
     },
   }
 
