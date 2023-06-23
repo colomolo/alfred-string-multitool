@@ -10,6 +10,19 @@
 	<dict>
 		<key>359ED8A6-D6B4-4DFE-91D5-86369F1575AB</key>
 		<array/>
+		<key>3C1C03B4-3F15-4D14-AD56-90548CCC2053</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>D933C8C0-173B-4E92-A833-B0675776D6EE</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>52225363-168D-443A-8902-BAB71D372C80</key>
 		<array>
 			<dict>
@@ -353,6 +366,48 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://github.com/colomolo/alfred-string-multitool</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>D933C8C0-173B-4E92-A833-B0675776D6EE</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>{var:keyword}?</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Help</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>3C1C03B4-3F15-4D14-AD56-90548CCC2053</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># String Multitool
@@ -367,6 +422,13 @@ Alfred workflow with handy string transforming tools.
 			<real>525</real>
 			<key>ypos</key>
 			<real>185</real>
+		</dict>
+		<key>3C1C03B4-3F15-4D14-AD56-90548CCC2053</key>
+		<dict>
+			<key>xpos</key>
+			<real>230</real>
+			<key>ypos</key>
+			<real>475</real>
 		</dict>
 		<key>52225363-168D-443A-8902-BAB71D372C80</key>
 		<dict>
@@ -388,6 +450,13 @@ Alfred workflow with handy string transforming tools.
 			<real>230</real>
 			<key>ypos</key>
 			<real>185</real>
+		</dict>
+		<key>D933C8C0-173B-4E92-A833-B0675776D6EE</key>
+		<dict>
+			<key>xpos</key>
+			<real>405</real>
+			<key>ypos</key>
+			<real>475</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -415,7 +484,7 @@ Alfred workflow with handy string transforming tools.
 		</dict>
 	</array>
 	<key>version</key>
-	<string>1.0.9</string>
+	<string>1.0.8</string>
 	<key>webaddress</key>
 	<string>http://colomolome.com</string>
 </dict>
