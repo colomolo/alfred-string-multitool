@@ -97,21 +97,23 @@ function run(argv) {
     },
   }
 
+  const REQUIRED_ARGUMENT = ' (?:\'.*?\'|\".*?\")';
+  const OPTIONAL_ARGUMENT = '(?: \'.*?\'| \".*?\")?';
+
   const argCommands = {
     S: {
       name: 'Slugify',
       hint: `Takes one argument: ${COMMAND_SEPARATOR}S '<replacement>'`,
       transform: toSlug,
       args: 1,
-      pattern: 'S(?: \'.*?\'| \".*?\")?',
+      pattern: `S${OPTIONAL_ARGUMENT}`,
     },
     R: {
       name: 'Replace',
       hint: `Takes two arguments: ${COMMAND_SEPARATOR}R '<substring>' '<replacement>'`,
       transform: toReplaced,
       args: 2,
-      pattern: 'R (?:\'.*?\'|\".*?\")(?: \'.*?\'| \".*?\")?',
-      isHidden: true,
+      pattern: `R${REQUIRED_ARGUMENT}${OPTIONAL_ARGUMENT}`,
     },
   };
 
@@ -197,10 +199,6 @@ function run(argv) {
     }
   } else {
     items = Object.values(allCommands).map((command) => {
-      if (command.isHidden) {
-        return {};
-      }
-
       try {
         const transformed = command.transform(string);
 
