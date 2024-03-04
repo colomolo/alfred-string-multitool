@@ -58,8 +58,22 @@ function run(argv) {
   };
 
   const toSlug = (string = '', replacement = '-') => {
-    const words = string.match(WORD);
-    return (words || []).join(replacement);
+      const cyrillicToLatinMap = {
+          'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
+          'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+          'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '', 'ы': 'y', 'ь': '',
+          'э': 'e', 'ю': 'yu', 'я': 'ya',
+          'є': 'ye', 'ґ': 'g', 'ї': 'yi',
+          'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'Zh', 'З': 'Z', 'И': 'I',
+          'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T',
+          'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'C', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '', 'Ы': 'Y', 'Ь': '',
+          'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya',
+          'Є': 'Ye', 'Ґ': 'G', 'Ї': 'Yi'
+      };
+  
+      const transliteratedString = string.replace(/[а-яёА-ЯЁ]/g, (match) => cyrillicToLatinMap[match] || match);
+      const words = transliteratedString.match(/\w+/g);
+      return (words || []).join(replacement);
   };
 
   const toReplaced = (string = '', substring, replacement = '') => {
