@@ -6,8 +6,24 @@ function run(argv) {
   const WORD = /[a-zA-Z0-9]+/g;
   const ARGUMENT = /(?:'([^'"]*)'|"([^'"]*)")/g;
   const COMMAND_SEPARATOR = ' /';
+  const CYRILLIC_TO_LATIN_MAP = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
+    'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+    'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '', 'ы': 'y', 'ь': '',
+    'э': 'e', 'ю': 'yu', 'я': 'ya',
+    'є': 'ye', 'ґ': 'g', 'ї': 'yi',
+    'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'Zh', 'З': 'Z', 'И': 'I',
+    'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T',
+    'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'C', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '', 'Ы': 'Y', 'Ь': '',
+    'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya',
+    'Є': 'Ye', 'Ґ': 'G', 'Ї': 'Yi'
+  };
 
   let items = [];
+
+  const transliterate = (string = '') => {
+    return string.replace(/[а-яёА-ЯЁ]/g, (match) => CYRILLIC_TO_LATIN_MAP[match] || match);
+  };
 
   const toPascalCase = (string = '') => {
     const words = string.match(WORD);
@@ -58,21 +74,7 @@ function run(argv) {
   };
 
   const toSlug = (string = '', replacement = '-') => {
-      const cyrillicToLatinMap = {
-          'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
-          'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-          'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '', 'ы': 'y', 'ь': '',
-          'э': 'e', 'ю': 'yu', 'я': 'ya',
-          'є': 'ye', 'ґ': 'g', 'ї': 'yi',
-          'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'Zh', 'З': 'Z', 'И': 'I',
-          'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T',
-          'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'C', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '', 'Ы': 'Y', 'Ь': '',
-          'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya',
-          'Є': 'Ye', 'Ґ': 'G', 'Ї': 'Yi'
-      };
-  
-      const transliteratedString = string.replace(/[а-яёА-ЯЁ]/g, (match) => cyrillicToLatinMap[match] || match);
-      const words = transliteratedString.match(/\w+/g);
+      const words = transliterate(string).match(WORD);
       return (words || []).join(replacement);
   };
 
