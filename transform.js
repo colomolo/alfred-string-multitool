@@ -74,8 +74,8 @@ function run(argv) {
   };
 
   const toSlug = (string = '', replacement = '-') => {
-      const words = transliterate(string).match(WORD);
-      return (words || []).join(replacement);
+    const words = transliterate(string).match(WORD);
+    return (words || []).join(replacement);
   };
 
   const toReplaced = (string = '', substring, replacement = '') => {
