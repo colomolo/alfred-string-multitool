@@ -57,6 +57,20 @@ Capitalize first char of each word.
 
 `The quick brown fox jumps over the lazy dog /a` → `The Quick Brown Fox Jumps Over The Lazy Dog`
 
+### Encode URI `/e`
+Encode URI by replacing certain characters with UTF-8 escape sequences.
+
+`https://mozilla.org/?x=шеллы /e` → `https://mozilla.org/?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B`
+
+See [`encodeURI` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)
+
+### Decode URI `/d`
+Inverse of `/e`.
+
+`https://mozilla.org/?x=%D1%88%D0%B5%D0%BB%D0%BB%D1%8B /d` → `https://mozilla.org/?x=шеллы`
+
+See [`decodeURI` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
+
 ### Slugify `/S '<replacement>'`
 Remove all non-word and non-digit chars and merge words with specified *replacement* string. If no *replacement* argument is provided, Slugify uses `-` char as an argument.
 
