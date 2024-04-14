@@ -7,16 +7,78 @@ function run(argv) {
   const ARGUMENT = /(?:'([^'"]*)'|"([^'"]*)")/g;
   const COMMAND_SEPARATOR = ' /';
   const CYRILLIC_TO_LATIN_MAP = {
-    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i',
-    'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-    'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '', 'ы': 'y', 'ь': '',
-    'э': 'e', 'ю': 'yu', 'я': 'ya',
-    'є': 'ye', 'ґ': 'g', 'ї': 'yi',
-    'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'Zh', 'З': 'Z', 'И': 'I',
-    'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T',
-    'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'C', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '', 'Ы': 'Y', 'Ь': '',
-    'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya',
-    'Є': 'Ye', 'Ґ': 'G', 'Ї': 'Yi'
+    а: 'a',
+    б: 'b',
+    в: 'v',
+    г: 'g',
+    д: 'd',
+    е: 'e',
+    ё: 'e',
+    ж: 'zh',
+    з: 'z',
+    и: 'i',
+    й: 'y',
+    к: 'k',
+    л: 'l',
+    м: 'm',
+    н: 'n',
+    о: 'o',
+    п: 'p',
+    р: 'r',
+    с: 's',
+    т: 't',
+    у: 'u',
+    ф: 'f',
+    х: 'h',
+    ц: 'c',
+    ч: 'ch',
+    ш: 'sh',
+    щ: 'sch',
+    ъ: '',
+    ы: 'y',
+    ь: '',
+    э: 'e',
+    ю: 'yu',
+    я: 'ya',
+    є: 'ye',
+    ґ: 'g',
+    ї: 'yi',
+    А: 'A',
+    Б: 'B',
+    В: 'V',
+    Г: 'G',
+    Д: 'D',
+    Е: 'E',
+    Ё: 'E',
+    Ж: 'Zh',
+    З: 'Z',
+    И: 'I',
+    Й: 'Y',
+    К: 'K',
+    Л: 'L',
+    М: 'M',
+    Н: 'N',
+    О: 'O',
+    П: 'P',
+    Р: 'R',
+    С: 'S',
+    Т: 'T',
+    У: 'U',
+    Ф: 'F',
+    Х: 'H',
+    Ц: 'C',
+    Ч: 'Ch',
+    Ш: 'Sh',
+    Щ: 'Sch',
+    Ъ: '',
+    Ы: 'Y',
+    Ь: '',
+    Э: 'E',
+    Ю: 'Yu',
+    Я: 'Ya',
+    Є: 'Ye',
+    Ґ: 'G',
+    Ї: 'Yi',
   };
 
   let items = [];
@@ -27,9 +89,7 @@ function run(argv) {
 
   const toPascalCase = (string = '') => {
     const words = string.match(WORD);
-    return (words || [])
-      .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
-      .join('');
+    return (words || []).map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join('');
   };
 
   const toLowerCase = (string = '') => {
@@ -42,12 +102,14 @@ function run(argv) {
 
   const toCamelCase = (string = '') => {
     const words = string.match(WORD);
-    return (words || []).map((word, index) => {
-      if (index === 0) {
-        return `${word.charAt(0).toLowerCase()}${word.slice(1)}`;
-      }
-      return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-    }).join('');
+    return (words || [])
+      .map((word, index) => {
+        if (index === 0) {
+          return `${word.charAt(0).toLowerCase()}${word.slice(1)}`;
+        }
+        return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+      })
+      .join('');
   };
 
   const toSnakeCase = (string = '') => {
@@ -66,7 +128,10 @@ function run(argv) {
 
     for (let i = 0; i < string.length; i++) {
       const currentChar = string.charAt(i);
-      capitalized += !wordChar.test(previousChar) && wordChar.test(currentChar) ? currentChar.toLocaleUpperCase() : currentChar;
+      capitalized +=
+        !wordChar.test(previousChar) && wordChar.test(currentChar)
+          ? currentChar.toLocaleUpperCase()
+          : currentChar;
       previousChar = currentChar;
     }
 
@@ -80,6 +145,14 @@ function run(argv) {
 
   const toReplaced = (string = '', substring, replacement = '') => {
     return string.replaceAll(substring, replacement);
+  };
+
+  const toEncodedURI = (string = '') => {
+    return encodeURI(string);
+  };
+
+  const toDecodedURI = (string = '') => {
+    return decodeURI(string);
   };
 
   const noArgCommands = {
@@ -111,10 +184,18 @@ function run(argv) {
       name: 'Capitalize',
       transform: toCapitalized,
     },
-  }
+    e: {
+      name: 'Encode URI',
+      transform: toEncodedURI,
+    },
+    d: {
+      name: 'Decode URI',
+      transform: toDecodedURI,
+    },
+  };
 
-  const REQUIRED_ARGUMENT = ' (?:\'.*?\'|\".*?\")';
-  const OPTIONAL_ARGUMENT = '(?: \'.*?\'| \".*?\")?';
+  const REQUIRED_ARGUMENT = ' (?:\'.*?\'|".*?")';
+  const OPTIONAL_ARGUMENT = '(?: \'.*?\'| ".*?")?';
 
   const argCommands = {
     S: {
@@ -139,7 +220,9 @@ function run(argv) {
   };
 
   const AVAILABLE_COMMANDS = new RegExp(
-    `[${Object.keys(noArgCommands).join('')}]{1}|${Object.values(argCommands).map(({ pattern }) => pattern).join('|')}`,
+    `[${Object.keys(noArgCommands).join('')}]{1}|${Object.values(argCommands)
+      .map(({ pattern }) => pattern)
+      .join('|')}`,
     'g'
   );
 
@@ -153,8 +236,9 @@ function run(argv) {
         }
 
         if (transformer.args && command.length > 1) {
-          const commandArgs = [...command.matchAll(ARGUMENT)]
-            .map((argMatch) => argMatch[1] ?? argMatch[2]); // matching single or double quotes
+          const commandArgs = [...command.matchAll(ARGUMENT)].map(
+            (argMatch) => argMatch[1] ?? argMatch[2]
+          ); // matching single or double quotes
           return transformer.transform.apply(null, [result, ...commandArgs]);
         }
 
@@ -172,7 +256,7 @@ function run(argv) {
         if (transformer) {
           result.push(transformer.name);
         }
-        return result
+        return result;
       }, []);
     }
   };
@@ -197,21 +281,25 @@ function run(argv) {
     };
     try {
       const chainResult = runTransforms(string, commandsSequence);
-      items = [{
-        uid: 'chained',
-        title: isMultilined(chainResult) ? 'Multiline output' : chainResult,
-        subtitle,
-        arg: chainResult,
-        icon,
-      }];
+      items = [
+        {
+          uid: 'chained',
+          title: isMultilined(chainResult) ? 'Multiline output' : chainResult,
+          subtitle,
+          arg: chainResult,
+          icon,
+        },
+      ];
     } catch {
-      items = [{
-        uid: 'error',
-        title: 'Error',
-        subtitle,
-        arg: string,
-        icon,
-      }];
+      items = [
+        {
+          uid: 'error',
+          title: 'Error',
+          subtitle,
+          arg: string,
+          icon,
+        },
+      ];
     }
   } else {
     items = Object.values(allCommands).map((command) => {
