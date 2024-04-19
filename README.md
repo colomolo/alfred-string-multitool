@@ -82,7 +82,7 @@ Replace all *substring* occurences with *replacement* string. If no *replacement
 `I'm Will, Will's son /R 'Will' 'Bill'` → `I'm Bill, Bill's son`
 
 ### Format JSON `/J '<indent>'`
-Prettify your JSON and format it nicely with custom spaces indentation (sorry, tab lovers!). If no *indent* argument is provided, 2 is used as default value.
+Prettify your JSON and format it with custom indentation. *indent* argument takes either number of spaces or 't' for tab indentation. If no argument is provided, 2 spaces used as a default value.
 
 `{"name":"George", "occupation":"dentist"} /J '4'`  
 ↓  
