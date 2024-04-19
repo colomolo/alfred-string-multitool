@@ -21,7 +21,7 @@ Some string THat we need to use as variable Name! /lc
 someStringThatWeNeedToUseAsVariableName
 ```
 
-## Commands
+## No-arg commands (lowercased)
 ### Lowercase `/l`
 Lowercase all chars.
 
@@ -71,6 +71,7 @@ Inverse of `/e`.
 
 See [`decodeURI` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
 
+## Commands with args (uppercased)
 ### Slugify `/S '<replacement>'`
 Remove all non-word and non-digit chars and merge words with specified *replacement* string. If no *replacement* argument is provided, Slugify uses `-` char as an argument.
 
