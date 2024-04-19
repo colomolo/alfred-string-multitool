@@ -81,6 +81,18 @@ Replace all *substring* occurences with *replacement* string. If no *replacement
 
 `I'm Will, Will's son /R 'Will' 'Bill'` → `I'm Bill, Bill's son`
 
+### Format JSON `/J '<indent>'`
+Prettify your JSON and format it with custom indentation. *indent* argument takes either number of spaces or 't' for tab indentation. If no argument is provided, 2 spaces used as a default value.
+
+`{"name":"George", "occupation":"dentist"} /J '4'`  
+↓  
+```
+{
+    "name": "George",
+    "occupation": "dentist"
+}
+```
+
 ![](./string-multitool-example.gif)
 
 <a href='https://ko-fi.com/I2I0W98PT' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>

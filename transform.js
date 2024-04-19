@@ -147,6 +147,10 @@ function run(argv) {
     return string.replaceAll(substring, replacement);
   };
 
+  const toJSON = (string = '', indent = 2) => {
+    return JSON.stringify(JSON.parse(string), null, indent === 't' ? '\t' : parseInt(indent));
+  };
+
   const toEncodedURI = (string = '') => {
     return encodeURI(string);
   };
@@ -211,6 +215,13 @@ function run(argv) {
       transform: toReplaced,
       args: 2,
       pattern: `R${REQUIRED_ARGUMENT}${OPTIONAL_ARGUMENT}`,
+    },
+    J: {
+      name: 'Format JSON',
+      hint: `Takes one argument: ${COMMAND_SEPARATOR}J '<indent>'. Integer of indentation spaces or 't' for tab char`,
+      transform: toJSON,
+      args: 1,
+      pattern: `J${OPTIONAL_ARGUMENT}`,
     },
   };
 
@@ -294,7 +305,7 @@ function run(argv) {
       items = [
         {
           uid: 'error',
-          title: 'Error',
+          title: 'Could not process. Invalid value or param',
           subtitle,
           arg: string,
           icon,
@@ -316,7 +327,15 @@ function run(argv) {
           },
         };
       } catch {
-        return {};
+        return {
+          uid: command.name.toLowerCase(),
+          title: 'Could not process. Invalid value or param',
+          subtitle: command.hint ? `${command.name}. ${command.hint}` : command.name,
+          arg: string,
+          icon: {
+            path: `./${command.name}.png`,
+          },
+        };
       }
     });
   }
