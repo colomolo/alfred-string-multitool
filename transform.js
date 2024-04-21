@@ -159,6 +159,14 @@ function run(argv) {
     return decodeURI(string);
   };
 
+  const toReversed = (string = '') => {
+    let reversed = '';
+    for (let i = string.length - 1; i >= 0; i--) {
+      reversed += string[i];
+    }
+    return reversed;
+  };
+
   const noArgCommands = {
     l: {
       name: 'Lowercase',
@@ -196,6 +204,10 @@ function run(argv) {
       name: 'Decode URI',
       transform: toDecodedURI,
     },
+    r: {
+      name: 'Reverse',
+      transform: toReversed,
+    }
   };
 
   const REQUIRED_ARGUMENT = ' (?:\'.*?\'|".*?")';
