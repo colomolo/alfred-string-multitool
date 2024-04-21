@@ -71,6 +71,9 @@ Inverse of `/e`.
 
 See [`decodeURI` on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/decodeURI)
 
+### Reverse `/r`
+Reverse string.
+
 ## Commands with args (uppercased)
 ### Slugify `/S '<replacement>'`
 Remove all non-word and non-digit chars and merge words with specified *replacement* string. If no *replacement* argument is provided, Slugify uses `-` char as an argument.
