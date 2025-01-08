@@ -3,7 +3,7 @@
 function run(argv) {
   const input = argv[0];
 
-  const WORD = /[a-zA-Z0-9]+/g;
+  const WORD = /[a-zA-Z0-9а-яёєґїА-ЯЁЄҐЇ]+/g;
   const ARGUMENT = /(?:'([^'"]*)'|"([^'"]*)")/g;
   const COMMAND_SEPARATOR = ' /';
   const CYRILLIC_TO_LATIN_MAP = {
