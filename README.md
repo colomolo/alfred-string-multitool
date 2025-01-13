@@ -30,7 +30,7 @@ Lowercase all chars.
 ### Uppercase `/u`
 Uppercase all chars.
 
-`Can you hear me Major Tom? /u` → `CAN YOU HEAR ME MAJOR TOM?`
+`Can you hear me, Major Tom? /u` → `CAN YOU HEAR ME, MAJOR TOM?`
 
 ### Pascalcase `/p`
 Convert string to pascalcase and remove all non-word and non-digit chars.
