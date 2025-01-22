@@ -3,7 +3,6 @@
 function run(argv) {
   const input = argv[0];
 
-  const WORD = /[a-zA-Z0-9а-яёєґїА-ЯЁЄҐЇ]+/g;
   const ARGUMENT = /(?:'([^']*)'|"([^"]*)")/g;
   const COMMAND_SEPARATOR = ' /';
   const CYRILLIC_TO_LATIN_MAP = {
@@ -80,11 +79,28 @@ function run(argv) {
     Ґ: 'G',
     Ї: 'Yi',
   };
+  const UMLAUTS_TO_LATIN_MAP = {
+    ä: 'ae',
+    ö: 'oe',
+    ü: 'ue',
+    Ä: 'Ae',
+    Ö: 'Oe',
+    Ü: 'Ue',
+    ß: 'ss',
+  };
+  const EXTRAS_TO_LATIN_MAP = {
+    ...CYRILLIC_TO_LATIN_MAP,
+    ...UMLAUTS_TO_LATIN_MAP,
+  };
+  const WORD = new RegExp(`[a-zA-Z0-9${Object.keys(EXTRAS_TO_LATIN_MAP).join('')}]+`, 'g');
 
   let items = [];
 
   const transliterate = (string = '') => {
-    return string.replace(/[а-яёєґїА-ЯЁЄҐЇ]/g, (match) => CYRILLIC_TO_LATIN_MAP[match] || match);
+    const extraChars = new RegExp(`[${Object.keys(EXTRAS_TO_LATIN_MAP).join('')}]`, 'g');
+    return string
+      .normalize('NFKC')
+      .replace(extraChars, (match) => EXTRAS_TO_LATIN_MAP[match] || match);
   };
 
   const toPascalCase = (string = '') => {
@@ -207,7 +223,7 @@ function run(argv) {
     r: {
       name: 'Reverse',
       transform: toReversed,
-    }
+    },
   };
 
   const REQUIRED_ARGUMENT = ' (?:\'.*?\'|".*?")';
