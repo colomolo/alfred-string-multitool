@@ -130,7 +130,7 @@ function run(argv) {
 
   const toSnakeCase = (string = '') => {
     const words = string.match(WORD);
-    return (words || []).join('_');
+    return (words || []).join('_').toLowerCase();
   };
 
   const toTrimmed = (string = '') => {
