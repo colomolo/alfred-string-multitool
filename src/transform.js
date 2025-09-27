@@ -1,5 +1,7 @@
 #!/usr/bin/env osascript -l JavaScript
 
+import slugify from 'slugify';
+
 function run(argv) {
   const input = argv[0];
 
@@ -96,13 +98,6 @@ function run(argv) {
 
   let items = [];
 
-  const transliterate = (string = '') => {
-    const extraChars = new RegExp(`[${Object.keys(EXTRAS_TO_LATIN_MAP).join('')}]`, 'g');
-    return string
-      .normalize('NFKC')
-      .replace(extraChars, (match) => EXTRAS_TO_LATIN_MAP[match] || match);
-  };
-
   const toPascalCase = (string = '') => {
     const words = string.match(WORD);
     return (words || []).map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`).join('');
@@ -155,8 +150,7 @@ function run(argv) {
   };
 
   const toSlug = (string = '', replacement = '-') => {
-    const words = transliterate(string).match(WORD);
-    return (words || []).join(replacement);
+    return slugify(string, { replacement });
   };
 
   const toReplaced = (string = '', substring, replacement = '') => {
@@ -372,3 +366,5 @@ function run(argv) {
     items,
   });
 }
+
+globalThis.run = run;

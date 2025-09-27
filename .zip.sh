@@ -44,7 +44,7 @@ rm -fv ./*.alfredworkflow
 # zip
 workflowName=$(plutil -extract 'name' raw -o - info.plist | tr " " "-")
 # ".*" excludes the dotfiles (glob pattern, not regex)
-zip --quiet -r "$workflowName.alfredworkflow" . -x ".*" "doc*/*" "prefs.plist" "info-original.plist" "*.md" "*.alfredworkflow" "*.gif"
+zip --quiet -r "$workflowName.alfredworkflow" . -x ".*" "doc*/*" "prefs.plist" "info-original.plist" "*.md" "*.alfredworkflow" "*.gif" "node_modules"
 echo "new $workflowName.alfredworkflow file created."
 
 # restore original
