@@ -4,6 +4,19 @@ import slugify from 'slugify';
 
 function run(argv) {
   const input = argv[0];
+  ObjC.import('stdlib');
+  const isLowerCaseEnabled = $.getenv('lowercase_enabled') === '1';
+  const isUpperCaseEnabled = $.getenv('uppercase_enabled') === '1';
+  const isCamelCaseEnabled = $.getenv('camelcase_enabled') === '1';
+  const isPascalCaseEnabled = $.getenv('pascalcase_enabled') === '1';
+  const isSnakeCaseEnabled = $.getenv('snakecase_enabled') === '1';
+  const isReverseEnabled = $.getenv('reverse_enabled') === '1';
+  const isTrimEnabled = $.getenv('trim_enabled') === '1';
+  const isCapitalizeEnabled = $.getenv('capitalize_enabled') === '1';
+  const isEncodeDecodeEnabled = $.getenv('encode_decode_enabled') === '1';
+  const isSlugifyEnabled = $.getenv('slugify_enabled') === '1';
+  const isReplaceEnabled = $.getenv('replace_enabled') === '1';
+  const isJsonFormatEnabled = $.getenv('format_json_enabled') === '1';
 
   const ARGUMENT = /(?:'([^']*)'|"([^"]*)")/g;
   const COMMAND_SEPARATOR = ' /';
@@ -178,73 +191,97 @@ function run(argv) {
   };
 
   const noArgCommands = {
-    l: {
-      name: 'Lowercase',
-      transform: toLowerCase,
-    },
-    u: {
-      name: 'Uppercase',
-      transform: toUpperCase,
-    },
-    c: {
-      name: 'Camelcase',
-      transform: toCamelCase,
-    },
-    p: {
-      name: 'Pascalcase',
-      transform: toPascalCase,
-    },
-    s: {
-      name: 'Snakecase',
-      transform: toSnakeCase,
-    },
-    t: {
-      name: 'Trim',
-      transform: toTrimmed,
-    },
-    a: {
-      name: 'Capitalize',
-      transform: toCapitalized,
-    },
-    e: {
-      name: 'Encode URI',
-      transform: toEncodedURI,
-    },
-    d: {
-      name: 'Decode URI',
-      transform: toDecodedURI,
-    },
-    r: {
-      name: 'Reverse',
-      transform: toReversed,
-    },
+    ...(isLowerCaseEnabled && {
+      l: {
+        name: 'Lowercase',
+        transform: toLowerCase,
+      },
+    }),
+    ...(isUpperCaseEnabled && {
+      u: {
+        name: 'Uppercase',
+        transform: toUpperCase,
+      },
+    }),
+    ...(isCamelCaseEnabled && {
+      c: {
+        name: 'Camelcase',
+        transform: toCamelCase,
+      },
+    }),
+    ...(isPascalCaseEnabled && {
+      p: {
+        name: 'Pascalcase',
+        transform: toPascalCase,
+      },
+    }),
+    ...(isSnakeCaseEnabled && {
+      s: {
+        name: 'Snakecase',
+        transform: toSnakeCase,
+      },
+    }),
+    ...(isTrimEnabled && {
+      t: {
+        name: 'Trim',
+        transform: toTrimmed,
+      },
+    }),
+    ...(isCapitalizeEnabled && {
+      a: {
+        name: 'Capitalize',
+        transform: toCapitalized,
+      },
+    }),
+    ...(isEncodeDecodeEnabled && {
+      e: {
+        name: 'Encode URI',
+        transform: toEncodedURI,
+      },
+      d: {
+        name: 'Decode URI',
+        transform: toDecodedURI,
+      },
+    }),
+    ...(isReverseEnabled && {
+      r: {
+        name: 'Reverse',
+        transform: toReversed,
+      },
+    }),
   };
 
   const REQUIRED_ARGUMENT = ' (?:\'.*?\'|".*?")';
   const OPTIONAL_ARGUMENT = '(?: \'.*?\'| ".*?")?';
 
   const argCommands = {
-    S: {
-      name: 'Slugify',
-      hint: `Takes one argument: ${COMMAND_SEPARATOR}S '<replacement>'`,
-      transform: toSlug,
-      args: 1,
-      pattern: `S${OPTIONAL_ARGUMENT}`,
-    },
-    R: {
-      name: 'Replace',
-      hint: `Takes two arguments: ${COMMAND_SEPARATOR}R '<substring>' '<replacement>'`,
-      transform: toReplaced,
-      args: 2,
-      pattern: `R${REQUIRED_ARGUMENT}${OPTIONAL_ARGUMENT}`,
-    },
-    J: {
-      name: 'Format JSON',
-      hint: `Takes one argument: ${COMMAND_SEPARATOR}J '<indent>'. Integer of indentation spaces or 't' for tab char`,
-      transform: toJSON,
-      args: 1,
-      pattern: `J${OPTIONAL_ARGUMENT}`,
-    },
+    ...(isSlugifyEnabled && {
+      S: {
+        name: 'Slugify',
+        hint: `Takes one argument: ${COMMAND_SEPARATOR}S '<replacement>'`,
+        transform: toSlug,
+        args: 1,
+        pattern: `S${OPTIONAL_ARGUMENT}`,
+      },
+    }),
+    ...(isReplaceEnabled && {
+      R: {
+        name: 'Replace',
+        hint: `Takes two arguments: ${COMMAND_SEPARATOR}R '<substring>' '<replacement>'`,
+        transform: toReplaced,
+        args: 2,
+        pattern: `R${REQUIRED_ARGUMENT}${OPTIONAL_ARGUMENT}`,
+      },
+    }),
+    ...(isJsonFormatEnabled && {
+      J: {
+        name: 'Format JSON',
+        hint: `Takes one argument: ${COMMAND_SEPARATOR}J '<indent>'. Integer of indentation spaces or 't' for tab char`,
+        transform: toJSON,
+        args: 1,
+        pattern: `J${OPTIONAL_ARGUMENT}`,
+      },
+    }),
   };
 
   const allCommands = {
